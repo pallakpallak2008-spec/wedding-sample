@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mauve Muse Photography</title>
+<meta name="description" content="Dreamy, romantic wedding photography">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink:#f7c6dc; --rose:#e79bc0; --lilac:#c9b3f0; --lav:#e9defa; --cream:#fff8fc;
+    --ink:#5b3f67; --muted:#8c7497; --glass:rgba(255,255,255,.55);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Jost',system-ui,sans-serif;font-weight:300;color:var(--ink);line-height:1.7;
+    background:linear-gradient(120deg,#ffeaf4,#efe3ff,#ffe3ef,#e7dcff);background-size:300% 300%;
+    animation:drift 22s ease infinite;overflow-x:hidden;
+  }
+  @keyframes drift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+  a{color:inherit;text-decoration:none}
+
+  /* floating blurred orbs */
+  .orb{position:fixed;border-radius:50%;filter:blur(70px);opacity:.55;z-index:0;pointer-events:none;animation:float 18s ease-in-out infinite}
+  .o1{width:380px;height:380px;background:#ffb8da;top:-80px;left:-100px}
+  .o2{width:440px;height:440px;background:#cdb4ff;top:35%;right:-160px;animation-delay:-6s}
+  .o3{width:340px;height:340px;background:#ffd0e8;bottom:-100px;left:20%;animation-delay:-11s}
+  @keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-50px) scale(1.12)}}
+
+  /* petals canvas */
+  #petals{position:fixed;inset:0;z-index:1;pointer-events:none}
+
+  main,nav,footer{position:relative;z-index:2}
+
+  /* NAV */
+  nav{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:20;display:flex;gap:6px;align-items:center;
+      padding:8px 12px;background:var(--glass);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.8);
+      border-radius:999px;box-shadow:0 10px 40px rgba(200,150,220,.25)}
+  nav a{padding:8px 18px;border-radius:999px;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;transition:.3s}
+  nav a:hover{background:linear-gradient(135deg,var(--pink),var(--lilac));color:#fff}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 6vw 80px;perspective:900px}
+  .eyebrow{font-size:.8rem;letter-spacing:.5em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+  .title{
+    font-family:'Pinyon Script',cursive;font-size:clamp(3.6rem,13vw,9.5rem);line-height:1.05;color:#fff;
+    /* layered shadows give a soft 3D, puffy look */
+    text-shadow:
+      0 1px 0 #f4b6d4, 0 2px 0 #eeaacb, 0 3px 0 #e79bc0, 0 4px 0 #dd8eb8, 0 5px 0 #d082ad,
+      0 6px 8px rgba(160,90,170,.35), 0 14px 30px rgba(190,130,220,.45), 0 0 50px rgba(255,255,255,.9);
+    transform-style:preserve-3d;transition:transform .15s ease-out;
+    animation:bob 6s ease-in-out infinite;
+  }
+  @keyframes bob{0%,100%{translate:0 0}50%{translate:0 -10px}}
+  .tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.2rem,2.6vw,1.7rem);margin:18px 0 38px;color:var(--ink)}
+  .btn{
+    display:inline-block;padding:16px 44px;border-radius:999px;border:0;cursor:pointer;font:inherit;font-weight:400;
+    font-size:.8rem;letter-spacing:.22em;text-transform:uppercase;color:#fff;
+    background:linear-gradient(135deg,#f0a6cb,#b99cf0);box-shadow:0 12px 30px rgba(190,130,220,.45), inset 0 1px 0 rgba(255,255,255,.6);
+    transition:transform .3s, box-shadow .3s;
+  }
+  .btn:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 18px 40px rgba(190,130,220,.55)}
+  .scroll{margin-top:60px;font-size:.7rem;letter-spacing:.4em;text-transform:uppercase;color:var(--muted);animation:bob 3s ease-in-out infinite}
+
+  section{padding:100px 6vw;max-width:1200px;margin:0 auto}
+  h2{font-family:'Pinyon Script',cursive;font-weight:400;font-size:clamp(2.8rem,7vw,4.6rem);text-align:center;color:#fff;line-height:1.1;
+     text-shadow:0 1px 0 #f0aacb,0 2px 0 #e79bc0,0 3px 0 #dc8ab6,0 4px 6px rgba(160,90,170,.3),0 10px 24px rgba(190,130,220,.4),0 0 30px rgba(255,255,255,.8)}
+  .sub{text-align:center;max-width:560px;margin:10px auto 54px;color:var(--muted);font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-style:italic}
+
+  /* GALLERY with 3D tilt */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:22px;perspective:1000px}
+  .tile{
+    position:relative;aspect-ratio:3/4;border-radius:26px;overflow:hidden;cursor:pointer;
+    border:6px solid rgba(255,255,255,.85);box-shadow:0 18px 40px rgba(180,120,210,.28);
+    transition:transform .2s ease-out, box-shadow .3s;transform-style:preserve-3d;will-change:transform;
+  }
+  .tile:nth-child(3n+2){aspect-ratio:3/3.8;margin-top:34px}
+  .tile img{width:100%;height:100%;object-fit:cover}
+  .tile.ph{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:#fff;
+    font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;text-shadow:0 2px 10px rgba(150,90,180,.5)}
+  .tile.ph svg{width:46px;height:46px;opacity:.95;animation:bob 5s ease-in-out infinite}
+  .tile::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.35),transparent 45%);pointer-events:none}
+  .tile:hover{box-shadow:0 28px 60px rgba(180,120,210,.45)}
+
+  /* GLASS CARDS */
+  .glass{background:var(--glass);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.85);border-radius:32px;box-shadow:0 20px 50px rgba(190,140,220,.22)}
+  .about{display:grid;grid-template-columns:1fr 1.25fr;gap:50px;align-items:center;padding:50px}
+  .portrait{aspect-ratio:4/5;border-radius:200px 200px 28px 28px;background:linear-gradient(160deg,#ffd1e6,#c9b3f0);background-size:cover;background-position:center;
+            border:6px solid #fff;box-shadow:0 18px 40px rgba(180,120,210,.3)}
+  .about h3{font-family:'Pinyon Script',cursive;font-weight:400;font-size:2.8rem;color:var(--rose);line-height:1.1;margin-bottom:14px}
+  .about p{margin-bottom:14px}
+
+  .pkgs{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px}
+  .pkg{padding:40px 30px;text-align:center;transition:transform .35s}
+  .pkg:hover{transform:translateY(-8px) rotate(-.6deg)}
+  .pkg h3{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:500}
+  .price{font-family:'Pinyon Script',cursive;font-size:2.3rem;color:var(--rose);margin:4px 0 14px}
+  .pkg li{list-style:none;padding:7px 0;border-top:1px dashed rgba(180,130,210,.4);color:var(--muted);font-size:.95rem}
+
+  form{max-width:600px;margin:0 auto;display:grid;gap:14px;padding:40px}
+  input,textarea{width:100%;padding:15px 20px;border-radius:20px;border:1px solid rgba(190,150,220,.5);background:rgba(255,255,255,.75);font:inherit;color:var(--ink)}
+  input:focus,textarea:focus{outline:none;border-color:var(--rose);box-shadow:0 0 0 4px rgba(231,155,192,.25)}
+  textarea{min-height:130px;resize:vertical}
+  .alt{text-align:center;margin-top:26px;color:var(--muted)}
+  .alt a{color:var(--rose);border-bottom:1px solid var(--rose)}
+  footer{text-align:center;padding:40px 20px 60px;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .concept{display:block;margin-top:8px;font-size:.7rem;opacity:.7}
+
+  /* reveal on scroll */
+  .rv{opacity:0;transform:translateY(40px);transition:opacity 1s ease, transform 1s ease}
+  .rv.in{opacity:1;transform:none}
+
+  #lb{position:fixed;inset:0;background:rgba(80,40,100,.85);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:60;cursor:zoom-out;padding:4vw}
+  #lb img{max-width:92vw;max-height:92vh;border-radius:20px;border:6px solid #fff}
+
+  @media(max-width:760px){
+    nav a{padding:8px 11px;font-size:.66rem;letter-spacing:.08em}
+    .about{grid-template-columns:1fr;padding:30px;gap:30px}
+    .tile:nth-child(3n+2){margin-top:0}
+    section{padding:70px 5vw}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    #petals{display:none}
+    .rv{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== EDIT THIS BLOCK PER CLIENT ===================== -->
+<script>
+const SITE = {
+  name: "Mauve Muse",
+  eyebrow: "Wedding photography",
+  tagline: "Soft, romantic images for the love stories worth remembering",
+  intro: "Golden light, quiet moments and every happy tear, gently kept for you.",
+  heroLine: "Based in Manchester · Travelling worldwide",
+  portrait: "",                                  // e.g. "images/me.jpg"
+  photos: ["","","","","","","",""],             // e.g. "images/1.jpg" ...
+  aboutTitle: "Hello, lovely",
+  about: [
+    "I'm a wedding photographer who believes the best pictures are the ones where you forget I'm there.",
+    "Expect warm, airy, dreamy images and a calm, friendly presence on your day."
+  ],
+  packages: [
+    { name:"Elopement", price:"£600",  items:["2 hours of coverage","40 edited images","Online gallery"] },
+    { name:"Half Day",  price:"£1,100",items:["5 hours of coverage","200 edited images","Online gallery","Print release"] },
+    { name:"Full Day",  price:"£1,800",items:["10 hours of coverage","400+ edited images","Online gallery","Engagement shoot"] }
+  ],
+  email:"hello@example.com",
+  instagram:"https://instagram.com/yourhandle",
+  instagramHandle:"@yourhandle",
+  formAction:""    // paste a free formspree.io URL here to receive enquiries by email
+};
+</script>
+<!-- ====================================================================== -->
+
+<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+<canvas id="petals"></canvas>
+
+<nav>
+  <a href="#top">Home</a><a href="#work">Work</a><a href="#about">About</a><a href="#packages">Packages</a><a href="#contact">Contact</a>
+</nav>
+
+<main>
+  <header class="hero" id="top">
+    <div class="eyebrow" id="eyebrow"></div>
+    <h1 class="title" id="title"></h1>
+    <p class="tagline" id="tagline"></p>
+    <a class="btn" href="#contact">Check my date</a>
+    <div class="scroll" id="heroLine"></div>
+  </header>
+
+  <section id="work" class="rv">
+    <h2>Recent Love Stories</h2>
+    <p class="sub" id="intro"></p>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="about" class="rv">
+    <div class="glass about">
+      <div class="portrait" id="portrait"></div>
+      <div><h3 id="aboutTitle"></h3><div id="aboutText"></div></div>
+    </div>
+  </section>
+
+  <section id="packages" class="rv">
+    <h2>Investment</h2>
+    <p class="sub">Starting points, always tailored to you.</p>
+    <div class="pkgs" id="pkgs"></div>
+  </section>
+
+  <section id="contact" class="rv">
+    <h2>Say Hello</h2>
+    <p class="sub">Tell me your date and venue. I reply within 24 hours.</p>
+    <form class="glass" id="form">
+      <input name="name" placeholder="Your names" required>
+      <input name="email" type="email" placeholder="Email" required>
+      <input name="date" placeholder="Wedding date and venue">
+      <textarea name="message" placeholder="Tell me about your day"></textarea>
+      <button class="btn" type="submit">Send with love</button>
+    </form>
+    <p class="alt">or email <a id="mail"></a> · <a id="ig" target="_blank" rel="noopener"></a></p>
+  </section>
+</main>
+
+<footer id="foot"></footer>
+<div id="lb"><img alt=""></div>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const flower = '<svg viewBox="0 0 64 64" fill="none"><g fill="#fff" fill-opacity=".9"><ellipse cx="32" cy="14" rx="9" ry="14"/><ellipse cx="32" cy="50" rx="9" ry="14"/><ellipse cx="14" cy="32" rx="14" ry="9"/><ellipse cx="50" cy="32" rx="14" ry="9"/></g><circle cx="32" cy="32" r="7" fill="#f5b3d3"/></svg>';
+
+  document.title = SITE.name + " Photography";
+  $("eyebrow").textContent = SITE.eyebrow;
+  $("title").textContent = SITE.name;
+  $("tagline").textContent = SITE.tagline;
+  $("heroLine").textContent = SITE.heroLine;
+  $("intro").textContent = SITE.intro;
+  $("aboutTitle").textContent = SITE.aboutTitle;
+  $("aboutText").innerHTML = SITE.about.map(p=>"<p>"+p+"</p>").join("");
+  $("foot").innerHTML = "© "+new Date().getFullYear()+" "+SITE.name+'<span class="concept">Design concept</span>';
+  if (SITE.portrait) $("portrait").style.backgroundImage = "url('"+SITE.portrait+"')";
+
+  const hues = ["linear-gradient(160deg,#ffcfe5,#d9c4ff)","linear-gradient(160deg,#e8d5ff,#ffc2dd)","linear-gradient(160deg,#ffd9ea,#c7b2f5)","linear-gradient(160deg,#f3d0ff,#ffd0e1)"];
+  $("grid").innerHTML = SITE.photos.map((s,i)=> s
+    ? '<div class="tile"><img loading="lazy" src="'+s+'" alt="Wedding photo '+(i+1)+'"></div>'
+    : '<div class="tile ph" style="background:'+hues[i%4]+'">'+flower+'<span>Your photo here</span></div>').join("");
+
+  $("pkgs").innerHTML = SITE.packages.map(p=>
+    '<div class="glass pkg"><h3>'+p.name+'</h3><div class="price">'+p.price+'</div><ul>'+p.items.map(x=>"<li>"+x+"</li>").join("")+'</ul></div>').join("");
+
+  $("mail").textContent = SITE.email; $("mail").href = "mailto:"+SITE.email;
+  $("ig").textContent = SITE.instagramHandle; $("ig").href = SITE.instagram;
+
+  $("form").addEventListener("submit", function(e){
+    if (SITE.formAction){ this.action = SITE.formAction; this.method = "POST"; return; }
+    e.preventDefault();
+    const d = new FormData(this);
+    location.href = "mailto:"+SITE.email+"?subject="+encodeURIComponent("Wedding enquiry from "+d.get("name"))+
+      "&body="+encodeURIComponent("Names: "+d.get("name")+"\nDate/venue: "+d.get("date")+"\n\n"+d.get("message"));
+  });
+
+  // Lightbox
+  const lb=$("lb"), lbi=lb.querySelector("img");
+  $("grid").addEventListener("click",e=>{const im=e.target.closest(".tile img"); if(!im)return; lbi.src=im.src; lb.style.display="flex";});
+  lb.addEventListener("click",()=>lb.style.display="none");
+  document.addEventListener("keydown",e=>{if(e.key==="Escape")lb.style.display="none"});
+
+  // Scroll reveal
+  const io = new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}}),{threshold:.12});
+  document.querySelectorAll(".rv").forEach(el=>io.observe(el));
+
+  // 3D tilt on photo tiles + title follows the mouse
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(!reduce){
+    $("grid").addEventListener("mousemove",e=>{
+      const t=e.target.closest(".tile"); if(!t)return;
+      const r=t.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+      t.style.transform="rotateY("+(x*14)+"deg) rotateX("+(-y*14)+"deg) scale(1.04)";
+    });
+    $("grid").addEventListener("mouseout",e=>{const t=e.target.closest(".tile"); if(t)t.style.transform="";});
+    const title=$("title");
+    document.addEventListener("mousemove",e=>{
+      const x=e.clientX/innerWidth-.5, y=e.clientY/innerHeight-.5;
+      title.style.transform="rotateY("+(x*10)+"deg) rotateX("+(-y*10)+"deg)";
+    });
+  }
+
+  // Falling petals
+  const c=$("petals"), ctx=c.getContext("2d"); let W,H,ps=[];
+  function size(){W=c.width=innerWidth;H=c.height=innerHeight}
+  addEventListener("resize",size); size();
+  const cols=["#ffd0e6","#f9b8d6","#e6d3ff","#d2bdf7","#ffe0ef"];
+  function mk(top){return{x:Math.random()*W,y:top?-20:Math.random()*H,r:6+Math.random()*10,s:.4+Math.random()*.9,
+    d:Math.random()*Math.PI*2,sw:.01+Math.random()*.02,rot:Math.random()*6,rs:(Math.random()-.5)*.03,c:cols[Math.random()*cols.length|0],o:.55+Math.random()*.4}}
+  const n = innerWidth<700?18:34; for(let i=0;i<n;i++) ps.push(mk(false));
+  function petal(p){
+    ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.globalAlpha=p.o; ctx.fillStyle=p.c;
+    ctx.beginPath(); ctx.moveTo(0,-p.r); ctx.bezierCurveTo(p.r*1.1,-p.r*.6,p.r*.9,p.r*.8,0,p.r);
+    ctx.bezierCurveTo(-p.r*.9,p.r*.8,-p.r*1.1,-p.r*.6,0,-p.r); ctx.fill(); ctx.restore();
+  }
+  (function loop(){
+    ctx.clearRect(0,0,W,H);
+    ps.forEach((p,i)=>{p.d+=p.sw; p.x+=Math.sin(p.d)*.8; p.y+=p.s; p.rot+=p.rs; petal(p); if(p.y>H+20) ps[i]=mk(true)});
+    requestAnimationFrame(loop);
+  })();
+})();
+</script>
+</body>
+</html>
